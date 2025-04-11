@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+    <schema id="org.gnome.shell.extensions.gnomouse" path="/org/gnome/shell/extensions/gnomouse/">
+        <!-- Keyboard shortcuts -->
+        <key name="show-grid" type="as">
+            <default><![CDATA[['<Super>g']]]></default>
+            <summary>Show grid overlay</summary>
+        </key>
+
+        <!-- Grid appearance -->
+        <key name="grid-line-thickness" type="i">
+            <default>2</default>
+            <summary>Grid line thickness in pixels</summary>
+        </key>
+
+        <key name="font-size" type="i">
+            <default>24</default>
+            <summary>Font size for grid labels</summary>
+        </key>
+
+        <key name="sub-font-size" type="i">
+            <default>16</default>
+            <summary>Font size for sub-grid labels</summary>
+        </key>
+
+        <!-- Grid dimensions -->
+        <key name="grid-cols" type="i">
+            <default>26</default>
+            <summary>Number of grid columns</summary>
+        </key>
+
+        <key name="grid-rows" type="i">
+            <default>26</default>
+            <summary>Number of grid rows</summary>
+        </key>
+
+        <!-- Debug settings -->
+        <key name="debug" type="b">
+            <default>false</default>
+            <summary>Enable debug logging</summary>
+        </key>
+    </schema>
+</schemalist> 

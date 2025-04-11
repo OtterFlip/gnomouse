@@ -1,0 +1,23 @@
+.gnomouse-grid-modal {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.gnomouse-grid-cell {
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.gnomouse-grid-label {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.gnomouse-subcell {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.gnomouse-sublabel {
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
