@@ -2,7 +2,7 @@
 
 ## Intro
 
-GNOMouse is a [GNOME Shell Extension](https://extensions.gnome.org) which enables you to use your keyboard instead of your mouse for the following mouse events: movement, right-click, left-click, double-click, and drag.
+GNOMouse is a [GNOME Shell Extension](https://extensions.gnome.org) which enables you to use your keyboard instead of your mouse for the following mouse events: movement, right-click, left-click, double-click, and drag.  Currently only works on GNOME 46 with X11.
 
 GNOMouse is inspired by the [Mouseless product](https://mouseless.click), which offers support for non-QWERTY keyboards, multiple screens, keystroke customization, localization, layout customization, and works the same across all major desktop platforms.  You may want to consider that product for its enhanced functionality.  The author of GNOMouse has no affiliation with the Mouseless product.
 
@@ -91,6 +91,18 @@ To drag from one location to another location:
 - Press CTRL+SPACE to indicate that you are performing a drag operation
 - Press the two characters to specify the top-level cell, then one character to specify the subcell, of the location you want the drag to begin
 - Press the two characters to specify the top-level cell, then one character to specify the subcell, of the location you want the drag to end
+
+## Screenshots
+
+This is what the grid looks like when you trigger overlay mode.  It covers the entire screen, yet it is transparent so that you can see the desktop behind it.  You type the two letters on the label of the cell you want the mouse to move to.
+
+![Top-Grid](./top_grid.png)
+
+
+This is what the grid looks like when you have selected a cell in the top-most grid.  It shows an ever finer-resolution sub-grid with single letter labels.  Type the single letter for the final mouse move.
+
+![Sub-Grid](./sub_grid.png)
+
 
 ## Issues
 
