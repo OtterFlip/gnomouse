@@ -2,10 +2,10 @@
   "name": "gnomouse",
   "type": "module",
   "devDependencies": {
-    "@girs/gjs": "3.2.9",
-    "@girs/gnome-shell": "45.0.0-beta9",
-    "prettier": "3.2",
-    "typescript": "5.3"
+    "@girs/gjs": "^4.0.0-beta.23",
+    "@girs/gnome-shell": "^48.0.2",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3"
   },
   "scripts": {
     "clean": "rm -rf build",
@@ -13,4 +13,4 @@
     "check": "prettier --check src --log-level debug && glib-compile-schemas --strict --dry-run src/schemas",
     "build": "tsc --outDir build && mkdir -p build/schemas && cp src/metadata.json src/stylesheet.css build/ && cp src/schemas/*.xml build/schemas/ && cd build/schemas && glib-compile-schemas . && cd .. && mv extension.js extension.mjs && sed 's/\\.js\"/.js\"/g' extension.mjs > extension.js && rm extension.mjs"
   }
-} 
+}
