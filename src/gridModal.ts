@@ -23,14 +23,7 @@ export class GridModal {
   private _dragStartY?: number;
 
   private moveMouse(x: number, y: number): void {
-    const seat = Clutter.get_default_backend().get_default_seat();
-    const pointer = seat.create_virtual_device(
-      Clutter.InputDeviceType.POINTER_DEVICE,
-    );
-    // First move absolutely to the position
-    pointer.notify_absolute_motion(global.get_current_time(), x, y);
-    // Then notify relative motion of 0,0 to ensure position is registered
-    pointer.notify_relative_motion(global.get_current_time(), 0, 0);
+    Clutter.get_default_backend().get_default_seat().warp_pointer(x, y);
   }
 
   constructor(settings: Gio.Settings) {
@@ -220,6 +213,9 @@ export class GridModal {
       Clutter.InputDeviceType.POINTER_DEVICE,
     );
 
+    // Ensure we're at the right position before any clicks
+    seat.warp_pointer(global.get_pointer()[0], global.get_pointer()[1]);
+
     switch (action) {
       case "left-click":
         pointer.notify_button(
@@ -268,8 +264,8 @@ export class GridModal {
         );
         break;
       case "drag":
-        // Immediate mouse down at start position
-        pointer.notify_relative_motion(global.get_current_time(), 0, 0);
+        // Ensure we're at the right position before drag
+        seat.warp_pointer(global.get_pointer()[0], global.get_pointer()[1]);
         pointer.notify_button(
           global.get_current_time(),
           1,
@@ -277,8 +273,8 @@ export class GridModal {
         );
         break;
       case "drag-release":
-        // Ensure we're at the position with a relative motion
-        pointer.notify_relative_motion(global.get_current_time(), 0, 0);
+        // Ensure we're at the right position before release
+        seat.warp_pointer(global.get_pointer()[0], global.get_pointer()[1]);
         pointer.notify_button(
           global.get_current_time(),
           1,
@@ -298,35 +294,32 @@ export class GridModal {
     const pointer = seat.create_virtual_device(
       Clutter.InputDeviceType.POINTER_DEVICE,
     );
-    const steps = 5; // Fewer steps for faster movement
+    const steps = 5;
 
-    // Calculate step sizes
     const dx = (endX - startX) / steps;
     const dy = (endY - startY) / steps;
 
     // Move to start position and press button
-    pointer.notify_absolute_motion(global.get_current_time(), startX, startY);
+    seat.warp_pointer(startX, startY);
     pointer.notify_button(
       global.get_current_time(),
       1,
       Clutter.ButtonState.PRESSED,
     );
 
-    // Simulate movement in steps with very short delays
+    // Simulate movement in steps
     for (let i = 1; i <= steps; i++) {
       GLib.timeout_add(GLib.PRIORITY_HIGH, i * 10, () => {
-        // Higher priority, shorter delay
         const x = startX + dx * i;
         const y = startY + dy * i;
-        pointer.notify_absolute_motion(global.get_current_time(), x, y);
+        seat.warp_pointer(x, y);
         return GLib.SOURCE_REMOVE;
       });
     }
 
-    // Release at final position after all movements complete
+    // Release at final position
     GLib.timeout_add(GLib.PRIORITY_HIGH, (steps + 2) * 10, () => {
-      // Extra step delay before release
-      pointer.notify_absolute_motion(global.get_current_time(), endX, endY);
+      seat.warp_pointer(endX, endY);
       pointer.notify_button(
         global.get_current_time(),
         1,

@@ -2,7 +2,7 @@
   "uuid": "gnomouse@example.com",
   "name": "GNOMouse",
   "description": "Control your mouse with keyboard shortcuts using a grid overlay",
-  "shell-version": ["46"],
+  "shell-version": ["46", "47", "48"],
   "url": "https://github.com/OtterFlip/gnomouse",
   "settings-schema": "org.gnome.shell.extensions.gnomouse",
   "version": 1
