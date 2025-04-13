@@ -21,13 +21,39 @@ export class GridModal {
   private _isDragging: boolean = false;
   private _dragStartX?: number;
   private _dragStartY?: number;
+  private _virtualPointer: Clutter.VirtualInputDevice;
 
-  private moveMouse(x: number, y: number): void {
-    Clutter.get_default_backend().get_default_seat().warp_pointer(x, y);
+  private moveMouse(targetX: number, targetY: number): void {
+    try {
+      // Get current pointer position
+      const [currentX, currentY] = global.get_pointer();
+
+      // Calculate relative movement needed
+      const dx = targetX - currentX;
+      const dy = targetY - currentY;
+
+      // Get current time for the event
+      const currentTime = global.get_current_time();
+
+      // Move the pointer using relative motion
+      this._virtualPointer.notify_relative_motion(
+        currentTime, // timestamp
+        dx, // relative x movement
+        dy, // relative y movement
+      );
+    } catch (e) {
+      console.error(`GNOMouse: Error moving pointer: ${e}`);
+    }
   }
 
   constructor(settings: Gio.Settings) {
     this._settings = settings;
+
+    // Create virtual input device for pointer movement
+    const seat = Clutter.get_default_backend().get_default_seat();
+    this._virtualPointer = seat.create_virtual_device(
+      Clutter.InputDeviceType.POINTER_DEVICE,
+    );
 
     // Create the modal overlay
     this._modal = new St.Widget({

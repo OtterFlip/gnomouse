@@ -1,6 +1,7 @@
 // Copyright (c) 2025 by Nathan S. Bushman. Licensed under GPL v3.
 import St from "gi://St";
 import Clutter from "gi://Clutter";
+import GLib from "gi://GLib";
 
 export class GridCell {
   private _cell: St.Widget;
@@ -68,13 +69,19 @@ export class GridCell {
       text: `${colLetter}${rowLetter}`,
     });
 
-    // Center the label in the cell
-    this._label.set_position(
-      Math.floor((width - this._label.width) / 2),
-      Math.floor((height - this._label.height) / 2),
-    );
-
+    // Add label to cell first
     this._cell.add_child(this._label);
+
+    // Now position the label after it's added to the stage
+    GLib.idle_add(GLib.PRIORITY_DEFAULT, () => {
+      if (this._label && this._label.get_parent()) {
+        this._label.set_position(
+          Math.floor((width - this._label.width) / 2),
+          Math.floor((height - this._label.height) / 2),
+        );
+      }
+      return GLib.SOURCE_REMOVE;
+    });
   }
 
   showSubCells(): void {
@@ -99,20 +106,27 @@ export class GridCell {
             height: subHeight,
           });
 
-          // Create sub-cell label
+          // Create and add sub-cell label
           const subLabel = new St.Label({
             style_class: "gnomouse-sublabel",
             text: GridCell.SUB_LABELS[labelIndex++],
           });
 
-          // Center the sub-label
-          subLabel.set_position(
-            Math.floor((subWidth - subLabel.width) / 2),
-            Math.floor((subHeight - subLabel.height) / 2),
-          );
-
+          // Add label to cell first
           subCell.add_child(subLabel);
           this._cell.add_child(subCell);
+
+          // Position label after it's added
+          GLib.idle_add(GLib.PRIORITY_DEFAULT, () => {
+            if (subLabel && subLabel.get_parent()) {
+              subLabel.set_position(
+                Math.floor((subWidth - subLabel.width) / 2),
+                Math.floor((subHeight - subLabel.height) / 2),
+              );
+            }
+            return GLib.SOURCE_REMOVE;
+          });
+
           this._subCells.push(subCell);
           this._subLabels.push(subLabel);
         }

@@ -1,4 +1,5 @@
 import "@girs/gjs";
+import "@girs/gjs/dom";
 import "@girs/adw-1/ambient";
 import "@girs/gdk-4.0/ambient";
 import "@girs/gio-2.0/ambient";
